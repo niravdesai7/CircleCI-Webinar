@@ -25,9 +25,7 @@ jobs:
            name: Authenticate DX Developer Hub
            command: |
                  echo $SFDX_DEVHUB_URL > ~/tmp/orgs/hub.auth
-                 force:auth:jwt:grant --clientid 3MVG9uGEVv_svxtJWuzYyhPVQ8H3x8n2tjILs7bJkbTqVwOTWXiheG.DM6K9W_6JUx5rMQtPNBLop5xuyPWZe \
---jwtkeyfile /Users/niravdesai/server.key --username  \ndesai@coinbasedemo1.org
---instanceurl https://login.salesforce.com"
+                 sfdx force:auth:sfdxurl:store -f ~/tmp/orgs/hub.auth --setdefaultdevhubusername --setalias hub
         
         - persist_to_workspace:
             root: ~/
@@ -111,7 +109,7 @@ jobs:
                 name: Authenticate Deploy Target
                 command: |
                     echo $DEPLOY_URL > ~/tmp/orgs/mastertarget.auth
-                    sfdx force:auth:sfdxurl:store -f ~/tmp/orgs/mastertarget.auth -s -a deployTarget
+                    sfdx force:auth:jwt:grant --clientid 3MVG9uGEVv_svxtJWuzYyhPVQ8H3x8n2tjILs7bJkbTqVwOTWXiheG.DM6K9W_6JUx5rMQtPNBLop5xuyPWZe --jwtkeyfile /Users/niravdesai/server.key --username  \ndesai@coinbasedemo1.org
             - run:
                 name: Convert SFDX source to Metadata Bundle
                 command: sfdx force:source:convert -d src-$CIRCLE_BUILD_NUM
