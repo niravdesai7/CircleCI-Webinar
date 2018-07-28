@@ -25,7 +25,9 @@ jobs:
            name: Authenticate DX Developer Hub
            command: |
                  echo $SFDX_DEVHUB_URL > ~/tmp/orgs/hub.auth
-                 sfdx force:auth:sfdxurl:store -f ~/tmp/orgs/hub.auth --setdefaultdevhubusername --setalias hub
+                 force:auth:jwt:grant --clientid 3MVG9uGEVv_svxtJWuzYyhPVQ8H3x8n2tjILs7bJkbTqVwOTWXiheG.DM6K9W_6JUx5rMQtPNBLop5xuyPWZe \
+--jwtkeyfile /Users/niravdesai/server.key --username  \ndesai@coinbasedemo1.org
+--instanceurl https://login.salesforce.com"
         
         - persist_to_workspace:
             root: ~/
