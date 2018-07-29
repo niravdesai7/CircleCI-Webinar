@@ -25,8 +25,8 @@ jobs:
            name: Authenticate DX Developer Hub
            command: |
                  echo $SFDX_DEVHUB_URL > ~/tmp/orgs/hub.auth
-                 sfdx force:auth:web:login --setdefaultdevhubusername --setalias DevHub
-                 
+                 sfdx force:auth:sfdxurl:store -f ~/tmp/orgs/hub.auth --setdefaultdevhubusername --setalias hub
+        
         - persist_to_workspace:
             root: ~/
             paths:
@@ -109,17 +109,13 @@ jobs:
                 name: Authenticate Deploy Target
                 command: |
                     echo $DEPLOY_URL > ~/tmp/orgs/mastertarget.auth
-                    sfdx force:auth:jwt:grant --clientid 3MVG9uGEVv_svxtJWuzYyhPVQ8H3x8n2tjILs7bJkbTqVwOTWXiheG.DM6K9W_6JUx5rMQtPNBLop5xuyPWZe --jwtkeyfile /Users/niravdesai/server.key --username  \ndesai@coinbasedemo1.org
+                    sfdx force:auth:sfdxurl:store -f ~/tmp/orgs/mastertarget.auth -s -a deployTarget
             - run:
                 name: Convert SFDX source to Metadata Bundle
                 command: sfdx force:source:convert -d src-$CIRCLE_BUILD_NUM
             - run:
                 name: Deploy Metadata Bundle to target org
                 command: sfdx force:mdapi:deploy -u deployTarget -d src-$CIRCLE_BUILD_NUM -l RunLocalTests -w 10
-            - run:
-                name: Fastlane
-                command: bundle exec fastlane $FASTLANE_LANE
-                no_output_timeout: 60m
 
 workflows:
   version: 2
