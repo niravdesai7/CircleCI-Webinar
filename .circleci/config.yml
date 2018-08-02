@@ -22,7 +22,8 @@ jobs:
                 mkdir ~/tmp/cache
 
         - run:
-           name: Authenticate DX Developer Hub
+           name: Authenticate DX Developer DevHub
+           no_output_timeout: 30m
            command: |
                  echo $SFDX_DEVHUB_URL > ~/tmp/orgs/hub.auth
                  sfdx force:auth:web:login --setdefaultdevhubusername --setalias DevHub
